@@ -11,6 +11,7 @@ cCanonImpulse = 40
 cShotRadius = 8
 cShotTick = 0.10
 cShootTimeout = 0.1
+cShootVolumeChange = 3
 
 function Player:__init(water, posx, posy, world)
 	self.water = water
@@ -31,6 +32,7 @@ function Player:__init(water, posx, posy, world)
 		self.keyLeft = "a"
 		self.keyRight = "d"
 		self.keyShoot = "space"
+		self.shootLoop = sfx.waterLoop
 	else
 		self.image = love.graphics.newImage("gfx/car-0.png")
 		self.gunImage = love.graphics.newImage("gfx/gun-0.png")
@@ -38,10 +40,16 @@ function Player:__init(water, posx, posy, world)
 		self.keyLeft = "left"
 		self.keyRight = "right"
 		self.keyShoot = "return"		
+		self.shootLoop = sfx.fireLoop
 	end
 	
 	self.quad = love.graphics.newQuad(0, 0, self.image:getWidth(), self.image:getHeight(), self.image:getWidth(), self.image:getHeight())
 	self.gunQuad = love.graphics.newQuad(0, 0, self.gunImage:getWidth(), self.gunImage:getHeight(), self.gunImage:getWidth(), self.gunImage:getHeight())
+	
+	self.shootLoopTargetVolume = 0
+	self.shootLoop:setLooping(true)
+	love.audio.play(self.shootLoop)
+	self.shootLoop:setVolume(0)
 end
 
 function Player:update(dt)
@@ -60,6 +68,14 @@ function Player:update(dt)
 	
 	self.power = self.power + 0.375 * dt
 	if self.power > 1 then self.power = 1 end
+	
+	-- shoot loop handling
+	local vol = self.shootLoop:getVolume()
+	local dvol = self.shootLoopTargetVolume - vol
+	if dvol > 0 then vol = vol + cShootVolumeChange * dt
+	else vol = vol - cShootVolumeChange * dt end
+	
+	self.shootLoop:setVolume(clamp(vol, 0, 1))
 end
 
 function Player:draw()
@@ -83,6 +99,7 @@ function Player:keyreleased(key)
 		self.inputRotateRight = false
 	end
 	if key == self.keyShoot then
+		self.shootLoopTargetVolume = 0
 		self.inputShoot = false
 	end
 end
@@ -112,10 +129,11 @@ function Player:keypressed(key, scancode, isrepeat)
 		self.inputRotateRight = true
 	end
 	if key == self.keyShoot then
+		self.shootLoopTargetVolume = 1
 		self.inputShoot = true
 	end
 end
 
-function Player:getPower()
-  return self.power
+function Player:getPowerFunction()
+  return function () return self.power end
 end

@@ -5,6 +5,28 @@ require("world")
 require("lib/building")
 require("game_interface")
 
+-- one shots
+sfx = {}
+sfx.blockFallImpack = {
+	love.audio.newSource("sfx/block_fall_impact.wav"), 
+}
+sfx.explosion = {
+	love.audio.newSource("sfx/explosion.wav"), 
+}
+sfx.fireImpact = {
+	love.audio.newSource("sfx/fire_impact-001.wav"), 
+	love.audio.newSource("sfx/fire_impact-002.wav"), 
+	love.audio.newSource("sfx/fire_impact-003.wav"), 
+}
+sfx.waterImpact = {
+	love.audio.newSource("sfx/water_impact-001.wav"), 
+	love.audio.newSource("sfx/water_impact-002.wav"), 
+	love.audio.newSource("sfx/water_impact-003.wav"), 
+}
+-- loops
+sfx.fireLoop = love.audio.newSource("sfx/fire_loop.wav")
+sfx.waterLoop = love.audio.newSource("sfx/water_loop.wav")
+
 gWorld = nil
 
 function init()
@@ -17,7 +39,8 @@ function init()
 	for i = 1, 6 do
 		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 80, math.random(4, 8))
 	end
-  gameInterface = GameInterface:new()
+	
+	gWorld:setBlockCount()
 end
 
 function love.load()
@@ -34,13 +57,15 @@ function love.draw()
 	for i = 1, 6 do
 		gBuilding[i]:draw()
 	end
-  gameInterface:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
     if key == "escape" then
         love.event.quit()
-    end
+    elseif key == "t" then
+			init()
+		end
+		
 		gWorld:keypressed(key, scancode, isrepeat)
 end
 
@@ -49,19 +74,19 @@ function love.keyreleased(key)
 end
 
 function love.textinput(text)
-
+	
 end
 
 function love.mousepressed(x, y, button)
-
+	
 end
 
 function love.mousereleased(x, y, button)
-
+	
 end
 
 function love.mousemoved(x, y, dx, dy)
-
+	
 end
 
 function love.wheelmoved(x, y)
@@ -76,6 +101,10 @@ function beginContact(a, b, coll)
 	local d2 = b2:getUserData()
 	
 	if d1 and d2 then
+		if d1.type == "block" and d2.type == "block" then
+			love.audio.play(pick_random(sfx.blockFallImpack))			
+		end
+	
 		if d1.type == "shot" and d2.type == "block" then
 			local b1_dummy = b1
 			local d1_dummy = d1
@@ -108,16 +137,21 @@ function beginContact(a, b, coll)
 			if d1.health <= 0 then
 				b1:destroy()
 				d1.data.alive = false
+				love.audio.play(pick_random(sfx.explosion))
 			end
 		end
 	end
 	
 	if d1 and d1.type == "shot" then
 		b1:destroy()
+		if d1.water then love.audio.play(pick_random(sfx.waterImpact)) 
+		else love.audio.play(pick_random(sfx.fireImpact)) end
 	end
 	
 	if d2 and d2.type == "shot" then
 		b2:destroy()
+		if d2.water then love.audio.play(pick_random(sfx.waterImpact)) 
+		else love.audio.play(pick_random(sfx.fireImpact)) end
 	end
 end
  

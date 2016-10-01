@@ -60,3 +60,9 @@ function clamp(val, a, b)
 		return math.min(a, math.max(b, val))
 	end
 end
+
+function pick_random(t)
+	local len = #t
+	local idx = math.random(len)
+	return t[idx]
+end
