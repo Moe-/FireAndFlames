@@ -3,6 +3,7 @@ require("utils")
 require("player")
 require("world")
 require("lib/building")
+require("game_interface")
 
 gWorld = nil
 
@@ -16,6 +17,7 @@ function init()
 	for i = 1, 10 do
 		gBuilding[i] = Building:new(gWorld, 100 + i * 50, 100, math.random(2, 7))
 	end
+  gameInterface = GameInterface:new()
 end
 
 function love.load()
@@ -32,6 +34,7 @@ function love.draw()
 	for i = 1, 10 do
 		gBuilding[i]:draw()
 	end
+  gameInterface:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
