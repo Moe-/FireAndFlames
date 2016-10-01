@@ -3,6 +3,7 @@ class "Player" {
 	posy = 0;
 	angle = 0;
 	rotate = 0;
+	power = 100;
 }
 
 cRotateSpeed = 0.85
