@@ -38,8 +38,8 @@ function Player:draw()
 											self.angle, 1, 1, self.gunImage:getWidth()/2, self.gunImage:getHeight())
 		else
 			love.graphics.draw(self.image, self.quad, self.posx, self.posy)
-			love.graphics.draw(self.gunImage, self.gunQuad, self.posx + self.image:getWidth()/2 - self.gunImage:getWidth()/2 + 10, self.posy + 10, 
-											self.angle, 1, 1, self.gunImage:getWidth()/2, self.gunImage:getHeight() - 5)
+			love.graphics.draw(self.gunImage, self.gunQuad, self.posx + 20, self.posy + 25, 
+											self.angle, 1, 1, 3, self.gunImage:getHeight())
 		end
 end
 
