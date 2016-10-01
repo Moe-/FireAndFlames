@@ -7,6 +7,7 @@ class "Player" {
 
 cRotateSpeed = 0.45
 cCanonImpulse = 100
+cShotRadius = 8
 
 function Player:__init(water, posx, posy, world)
 	self.water = water
@@ -56,7 +57,7 @@ function Player:shoot()
 	data.type = "shot"
 	data.water = self.water
 	body:setUserData(data)
-	local shape = love.physics.newCircleShape(32)
+	local shape = love.physics.newCircleShape(cShotRadius)
 	local fixture = love.physics.newFixture(body, shape)
 	
 	body:applyLinearImpulse(math.cos(self.angle) * cCanonImpulse, math.sin(self.angle) * cCanonImpulse)
