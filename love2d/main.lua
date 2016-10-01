@@ -15,7 +15,7 @@ function init()
 	math.randomseed(4)
 	
 	for i = 1, 6 do
-		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 100, math.random(4, 8))
+		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 80, math.random(4, 8))
 	end
   gameInterface = GameInterface:new()
 end

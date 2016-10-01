@@ -19,13 +19,13 @@ function World:__init(width, height)
 	self.world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	self.ground = {}
-	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 104)
+	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 80)
 	self.ground.shape = love.physics.newRectangleShape(self.screenWidth * 2, 32)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
-	table.insert(self.players, Player:new(false,675, 525, self.world))
-	table.insert(self.players, Player:new(true, 25, 525, self.world))
+	table.insert(self.players, Player:new(false,675, 450, self.world))
+	table.insert(self.players, Player:new(true, 25, 450, self.world))
 end
 
 function World:update(dt)

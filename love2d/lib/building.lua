@@ -30,6 +30,6 @@ function Building:draw()
 
 	for i, v in pairs(self.blocks) do
 		self.world.blocksQuad:setViewport(v.variant * self.world.blockWidth, 0, self.world.blockWidth, self.world.blockHeight)
-		love.graphics.draw(self.world.blocksImg, self.world.blocksQuad, v.body:getX(), v.body:getY())
+		love.graphics.draw(self.world.blocksImg, self.world.blocksQuad, v.body:getX(), v.body:getY(), v.body:getAngle(), 1, 1, self.world.blockWidth * 0.5, self.world.blockHeight * 0.5)
 	end
 end
