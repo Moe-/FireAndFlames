@@ -76,7 +76,7 @@ function Player:shoot()
 	local shape = love.physics.newCircleShape(cShotRadius)
 	local fixture = love.physics.newFixture(body, shape)
 	
-	body:applyLinearImpulse(math.cos(self.angle) * cCanonImpulse, math.sin(self.angle) * cCanonImpulse)
+	body:applyLinearImpulse(math.cos(self.angle - math.pi/2) * cCanonImpulse, math.sin(self.angle - math.pi/2) * cCanonImpulse)
 end
 
 function Player:keypressed(key, scancode, isrepeat)	
