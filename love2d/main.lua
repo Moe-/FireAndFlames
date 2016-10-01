@@ -32,6 +32,11 @@ sfx.pain = love.audio.newSource("sfx/pain.mp3")
 sfx.pain:setVolume(0.5)
 gWorld = nil
 
+gMusicGame = love.audio.newSource("sfx/music.ogg", "stream")
+gMusicGame:setLooping(true)
+gMusicGame:setVolume(0.75)
+gMusicGame:play()
+
 function init()
 	gWorld = World:new(800,600)
 	
