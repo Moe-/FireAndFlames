@@ -1,5 +1,6 @@
 require("lib/postshader")
 require("utils")
+require("player")
 require("world")
 
 gWorld = nil
@@ -21,7 +22,9 @@ function love.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
-
+    if key == "escape" then
+        love.event.quit()
+    end
 end
 
 function love.keyreleased(key)

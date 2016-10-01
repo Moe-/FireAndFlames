@@ -17,6 +17,10 @@ function World:__init(width, height)
 	self.ground.body = love.physics.newBody(self.world, screenWidth * 0.5, screenHeight - 16) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
 	self.ground.shape = love.physics.newRectangleShape(screenWidth, 32) --make a rectangle with a width of 650 and a height of 50
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape) --attach shape to body
+
+	self.players = {}
+	table.insert(self.players, Player:new(false, 25, 500))
+	table.insert(self.players, Player:new(true, 25, 500))
 end
 
 function World:update(dt)
