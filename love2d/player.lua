@@ -1,7 +1,7 @@
 class "Player" {
 	posx = 0;
 	posy = 0;
-	angle = 0;
+	angle = 0.5;
 	rotate = 0;
 	power = 1;
 }
