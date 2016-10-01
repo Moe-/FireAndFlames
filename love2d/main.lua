@@ -17,7 +17,6 @@ function init()
 	for i = 1, 6 do
 		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 80, math.random(4, 8))
 	end
-  gameInterface = GameInterface:new()
 end
 
 function love.load()
@@ -34,7 +33,6 @@ function love.draw()
 	for i = 1, 6 do
 		gBuilding[i]:draw()
 	end
-  gameInterface:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)

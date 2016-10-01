@@ -28,6 +28,7 @@ function World:__init(width, height)
 	self.players = {}
 	table.insert(self.players, Player:new(false,675, 455, self.world))
 	table.insert(self.players, Player:new(true, 25, 455, self.world))
+  gameInterface = GameInterface:new(self.players[2]:getPowerFunction(), self.players[1]:getPowerFunction())
 end
 
 function World:update(dt)
@@ -131,6 +132,7 @@ function World:draw()
 			love.graphics.draw(img, quad, x - img:getWidth()/2, y - img:getHeight()/2)
 		end
 	end
+  gameInterface:draw()
 end
 
 function World:keyreleased(key)
