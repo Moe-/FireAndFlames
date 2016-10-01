@@ -1,7 +1,15 @@
 require("lib/postshader")
+require("utils")
+require("world")
+
+gWorld = nil
+
+function init()
+	gWorld = World:new(800,600)
+end
 
 function love.load()
-
+	init()
 end
 
 function love.update(dt)
