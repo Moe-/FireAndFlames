@@ -15,6 +15,8 @@ function Building:__init(world, x, y, height)
 		block.shape = love.physics.newRectangleShape(self.world.blockWidth, self.world.blockHeight)
 		block.fixture = love.physics.newFixture(block.body, block.shape)
 		
+		block.body:setUserData({type="block",health=100,wet=0})
+		
 		table.insert(self.blocks, block)
 	end
 end
@@ -24,7 +26,7 @@ function Building:update(dt)
 end
 
 function Building:draw()
-	love.graphics.setColor(127, 127, 127)
+	love.graphics.setColor(255, 255, 255)
 
 	for i, v in pairs(self.blocks) do
 		self.world.blocksQuad:setViewport(v.variant * self.world.blockWidth, 0, self.world.blockWidth, self.world.blockHeight)

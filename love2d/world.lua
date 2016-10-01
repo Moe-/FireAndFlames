@@ -16,6 +16,7 @@ function World:__init(width, height)
 
 	love.physics.setMeter(64)
 	self.world = love.physics.newWorld(0, 9.81 * 64, true)
+	self.world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	self.ground = {}
 	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 24)
@@ -39,6 +40,7 @@ function World:update(dt)
 end
 
 function World:draw()
+	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.background)
 	
 	for i, v in pairs(self.objects) do
