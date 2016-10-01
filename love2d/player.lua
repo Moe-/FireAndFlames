@@ -108,3 +108,7 @@ function Player:keypressed(key, scancode, isrepeat)
 		self.inputShoot = true
 	end
 end
+
+function Player:getPower()
+  return self.power
+end
