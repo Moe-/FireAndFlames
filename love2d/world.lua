@@ -239,6 +239,7 @@ function World:keyreleased(key)
 end
 
 function World:keypressed(key, scancode, isrepeat)
+	if self.gameOver then return end
 	for i, v in pairs(self.players) do
 		v:keypressed(key, scancode, isrepeat)
 	end
