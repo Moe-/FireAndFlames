@@ -5,9 +5,12 @@ class "GameInterface" {
   barVerticalScreenOffset = 15
 }
 
-function GameInterface:__init(waterFillStatusFunction, fireFillStatusFunction, gameStatusFunction)
+function GameInterface:__init(world)
   -- The functions should return some value between 0 and 1
   --local waterFillStatusFunction = waterPlayer.getPower
+  local waterFillStatusFunction = world.players[2]:getPowerFunction()
+  local fireFillStatusFunction = world.players[1]:getPowerFunction()
+  local gameStatusFunction = world:getGameStatusFunction()
   self.waterFillStatusFunction = waterFillStatusFunction or function () return 1 end --TODO put function to get water status here
   self.fireFillStatusFunction = fireFillStatusFunction or function () return 0.75 end --TODO see above
   self.waterBGImage = love.graphics.newImage("gfx/ui-bar-bg-1.png")
@@ -45,11 +48,30 @@ function GameInterface:drawPlayerBars()
   love.graphics.setColor(oldR, oldG, oldB)
 end
 
--- gameStatus = {["saved"] = 75, ["existing"] = 100}
+--[[example: gameStatus = {
+      ["remainingTime"] = 1,
+      ["gameOver"] = 2,
+      ["winner"] = 3
+      }
+--]]
 function GameInterface:drawMiddleBar(gameStatus)
-  self.guiText:set(gameStatus.saved.."/"..gameStatus.existing)
   oldR, oldG, oldB = love.graphics.getColor()
-  love.graphics.setColor(255,255,255)
+  if gameStatus.gameOver then
+    love.graphics.setColor(255,0,0)
+    self.guiText:set("Game Over")
+    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset, 0, 2, 2, self.guiText:getWidth()/2, 0)
+    if gameStatus.winner then -- fire fighter wins
+			love.graphics.setColor(0, 0, 255, 255)
+			self.guiText:set("Fire fighter wins: " .. gameStatus.blocksDestroyed .. " of " .. gameStatus.blockCount .. " blocks destroyed")
+		else
+			love.graphics.setColor(255, 0, 0, 255)
+			self.guiText:set("Fire snake wins: " .. gameStatus.blocksDestroyed .. " of " .. gameStatus.blockCount .. " blocks destroyed")
+		end
+    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, 50, 0, 1.5, 1.5, self.guiText:getWidth()/2, 0)
+  else
+    love.graphics.setColor(255, 255 * gameStatus.remainingTime / cTimelimit, 255 * gameStatus.remainingTime / cTimelimit, 255)
+    self.guiText:set(round(gameStatus.remainingTime,2))
   love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset, 0, 2, 2, self.guiText:getWidth()/2, 0)
+  end
   love.graphics.setColor(oldR, oldG, oldB)
 end

@@ -40,7 +40,7 @@ function World:__init(width, height)
 	self.players = {}
 	table.insert(self.players, Player:new(false,675, 455, self.world))
 	table.insert(self.players, Player:new(true, 25, 455, self.world))
-	gameInterface = GameInterface:new(self.players[2]:getPowerFunction(), self.players[1]:getPowerFunction())
+  gameInterface = GameInterface:new(self)
 end
 
 function World:update(dt)
@@ -155,24 +155,6 @@ function World:draw()
 			love.graphics.draw(img, quad, x - img:getWidth()/2, y - img:getHeight()/2)
 		end
 	end
-	
-	if self.gameOver then
-		-- todo: print winner
-		if self.winner then -- fire fighter wins
-			love.graphics.setColor(0, 0, 255, 255)
-			love.graphics.print("Fire fighter wins: " .. self.blocksDestroyed .. " of " .. self.blockCount .. " blocks destroyed", self.screenWidth/4 - 50, 50, 0, 2, 2)
-		else
-			love.graphics.setColor(255, 0, 0, 255)
-			love.graphics.print("Fire snake wins: " .. self.blocksDestroyed .. " of " .. self.blockCount .. " blocks destroyed", self.screenWidth/4 - 50, 50, 0, 2, 2)
-		end
-		love.graphics.setColor(255, 255, 255, 255)
-	else
-		love.graphics.setColor(0, 0, 0, 255)
-    love.graphics.print(round(self.timelimit, 2), self.screenWidth/2 - 52, 52, 0, 2, 2)
-		love.graphics.setColor(255, 255 * self.timelimit / cTimelimit, 255 * self.timelimit / cTimelimit, 255)
-    love.graphics.print(round(self.timelimit, 2), self.screenWidth/2 - 50, 50, 0, 2, 2)
-		love.graphics.setColor(255, 255, 255, 255)
-	end
   gameInterface:draw()
 end
 
@@ -206,4 +188,22 @@ function World:countBlocks()
 		end
 	end
 	return count
+end
+
+function World:getWinner()
+  return self.winner
+end
+
+function World:getDestroyedBlocks()
+  return self.blocksDestroyed
+end
+
+function World:getGameStatusFunction()
+  return function() return {
+      ["remainingTime"] = self:getTimeLeft(),
+      ["gameOver"] = self:getTimeLeft()<=0,
+      ["winner"] = self:getWinner(),
+      ["blocksDestroyed"] = self:getDestroyedBlocks(),
+      ["blockCount"] = self.blockCount,
+      } end
 end
