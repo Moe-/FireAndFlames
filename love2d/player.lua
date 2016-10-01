@@ -8,6 +8,7 @@ class "Player" {
 cRotateSpeed = 0.85
 cCanonImpulse = 100
 cShotRadius = 8
+cShotTick = 0.01
 
 function Player:__init(water, posx, posy, world)
 	self.water = water
