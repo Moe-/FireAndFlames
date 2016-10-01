@@ -12,10 +12,10 @@ function init()
 	
 	gBuilding = {}
 	
-	math.randomseed(1)
+	math.randomseed(4)
 	
-	for i = 1, 10 do
-		gBuilding[i] = Building:new(gWorld, 100 + i * 50, 100, math.random(2, 7))
+	for i = 1, 6 do
+		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 100, math.random(4, 8))
 	end
   gameInterface = GameInterface:new()
 end
@@ -31,7 +31,7 @@ end
 function love.draw()
 	gWorld:draw()
 	
-	for i = 1, 10 do
+	for i = 1, 6 do
 		gBuilding[i]:draw()
 	end
   gameInterface:draw()
