@@ -76,9 +76,9 @@ function GameInterface:drawMiddleBar(gameStatus)
     -- show blocks that have to be destroyed
     local blocksToDestroyLeft = round(gameStatus.blockCount * cDestroyNecessaryFactor) - gameStatus.blocksDestroyed
     local blockDestroyColor = blocksToDestroyLeft/ (gameStatus.blockCount*cDestroyNecessaryFactor)
-    print(blockDestroyColor)
+    --~ print(blockDestroyColor)
     love.graphics.setColor(255, 255 * blockDestroyColor, 255 *blockDestroyColor, 255)
-    self.guiText:set(string.format("Blocks to destroy: %s", blocksToDestroyLeft))
+    self.guiText:set(string.format("Blocks to destroy: %s\n%s:%s", blocksToDestroyLeft, gameStatus.winsWater, gameStatus.winsFire))
     love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset*2+10, 0, 2, 2, self.guiText:getWidth()/2, 0)
   end
   love.graphics.setColor(oldR, oldG, oldB)

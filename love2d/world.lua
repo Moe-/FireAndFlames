@@ -5,6 +5,8 @@ class "World" {
 	blocksDestroyed = 0;
 }
 
+wins = {fire = 0, water = 0}
+
 cTimelimit = 60
 cFireSpread = -2
 cFireBurn = 0.2
@@ -88,8 +90,10 @@ function World:update(dt)
 		self.blocksDestroyed = self.blockCount - self:countBlocks()
 		if self.blocksDestroyed > self.blockCount * cDestroyNecessaryFactor then
 			self.winner = false
+			wins.fire = wins.fire + 1
 		else
 			self.winner = true
+			wins.water = wins.water + 1
 		end
 	end
 end
@@ -226,5 +230,7 @@ function World:getGameStatusFunction()
       ["winner"] = self:getWinner(),
       ["blocksDestroyed"] = self:getDestroyedBlocks(),
       ["blockCount"] = self.blockCount,
+      ["winsFire"] = wins.fire,
+      ["winsWater"] = wins.water,
       } end
 end
