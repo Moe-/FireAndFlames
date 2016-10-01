@@ -1,8 +1,8 @@
 class "GameInterface" {
   fgBorderXOffset = 3,
   fgBorderYOffset = 3,
-  barHorizontalScreenOffset = 36,
-  barVerticalScreenOffset = 15
+  barHorizontalScreenOffset = 64,
+  barVerticalScreenOffset = 24
 }
 
 function GameInterface:__init(world)
