@@ -24,8 +24,8 @@ function World:__init(width, height)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
-	table.insert(self.players, Player:new(false,675, 450, self.world))
-	table.insert(self.players, Player:new(true, 25, 450, self.world))
+	table.insert(self.players, Player:new(false,675, 455, self.world))
+	table.insert(self.players, Player:new(true, 25, 455, self.world))
 end
 
 function World:update(dt)
@@ -36,6 +36,14 @@ function World:update(dt)
 	end
 	for i, v in pairs(self.players) do
 		v:update(dt)
+	end
+	
+	local bodies = self.world:getBodyList()
+	for i,v in pairs(bodies) do
+		local data = v:getUserData()
+		if data ~= nil and data.type == "shot" then
+			data.age = data.age + dt
+		end
 	end
 end
 
