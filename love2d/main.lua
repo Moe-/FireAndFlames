@@ -13,11 +13,11 @@ function love.load()
 end
 
 function love.update(dt)
-
+	gWorld:update(dt)
 end
 
 function love.draw()
-
+	gWorld:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
