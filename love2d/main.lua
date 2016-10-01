@@ -68,6 +68,8 @@ function love.draw()
 		gBuilding[i]:draw()
 	end
 	
+  gWorld.gameInterface:draw()
+  
 	love.postshader.addEffect("scanlines")
 
 	love.postshader.setBuffer("render")

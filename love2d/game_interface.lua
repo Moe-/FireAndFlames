@@ -67,7 +67,7 @@ function GameInterface:drawMiddleBar(gameStatus)
 			love.graphics.setColor(255, 0, 0, 255)
 			self.guiText:set("Fire snake wins: " .. gameStatus.blocksDestroyed .. " of " .. gameStatus.blockCount .. " blocks destroyed")
 		end
-    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, 50, 0, 1.5, 1.5, self.guiText:getWidth()/2, 0)
+    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, love.graphics.getHeight()/2, 0, 2, 2, self.guiText:getWidth()/2, 0)
   else
     -- show remaining time
     love.graphics.setColor(255, 255 * gameStatus.remainingTime / cTimelimit, 255 * gameStatus.remainingTime / cTimelimit, 255)

@@ -51,7 +51,7 @@ function World:__init(width, height)
 	
 	love.graphics.setDefaultFilter("nearest", "nearest")
 
-  gameInterface = GameInterface:new(self)
+  self.gameInterface = GameInterface:new(self)
 end
 
 function World:update(dt)
@@ -230,7 +230,6 @@ function World:draw()
 			love.graphics.draw(img, quad, x - img:getWidth()/2, y - img:getHeight()/2)
 		end
 	end
-  gameInterface:draw()
 end
 
 function World:keyreleased(key)
