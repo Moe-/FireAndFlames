@@ -70,7 +70,9 @@ function GameInterface:drawMiddleBar(gameStatus)
     love.graphics.draw(self.guiText, love.graphics.getWidth()/2, 50, 0, 1.5, 1.5, self.guiText:getWidth()/2, 0)
   else
     love.graphics.setColor(255, 255 * gameStatus.remainingTime / cTimelimit, 255 * gameStatus.remainingTime / cTimelimit, 255)
-    self.guiText:set(string.format("%.2f", gameStatus.remainingTime))
+    
+    local blocksToDestroyLeft = round(gameStatus.blockCount * cDestroyNecessaryFactor) - gameStatus.blocksDestroyed
+    self.guiText:set(string.format("%.2f / %s", gameStatus.remainingTime, blocksToDestroyLeft))
   love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset, 0, 2, 2, self.guiText:getWidth()/2, 0)
   end
   love.graphics.setColor(oldR, oldG, oldB)
