@@ -69,7 +69,35 @@ function love.wheelmoved(x, y)
 end
 
 function beginContact(a, b, coll)
+	local b1 = a:getBody()
+	local b2 = b:getBody()
+	
+	local d1 = b1:getUserData()
+	local d2 = b2:getUserData()
+	
+	if d1 and d2 then
+		if d1.type == "block" and d2.type == "shot" then
+			d1.health = d1.health - 10
+			b1:setUserData(d1)
+			
+			if d1.health <= 0 then
+				b1:destroy()
+				d1.data.alive = false
+			end
+		end
 
+		if d2.type == "block" and d1.type == "shot" then
+			print("lol")
+		end
+	end
+	
+	if d1 and d1.type == "shot" then
+		b1:destroy()
+	end
+	
+	if d2 and d2.type == "shot" then
+		b2:destroy()
+	end
 end
  
 function endContact(a, b, coll)
