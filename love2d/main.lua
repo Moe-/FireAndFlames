@@ -1,5 +1,6 @@
 require("lib/postshader")
 require("utils")
+require("player")
 require("world")
 
 gWorld = nil

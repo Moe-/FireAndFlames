@@ -9,6 +9,9 @@ function World:__init(width, height)
 	screenWidth = width;
 	screenHeight = height;
 	self.objects = {}
+	self.players = {}
+	table.insert(self.players, Player:new(false, 25, 500))
+	table.insert(self.players, Player:new(true, 25, 500))
 end
 
 function World:update(dt)
