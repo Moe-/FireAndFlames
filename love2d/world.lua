@@ -12,6 +12,8 @@ cFireSpread = -2
 cFireBurn = 0.2
 cFireSpreadBurnThreshold = -20
 cDestroyNecessaryFactor = 0.5
+cHumansJumpOutOfTheWindowThreshold = 50
+cHumansJumpOutOfTheWindowProb = 0.05
 
 function World:__init(width, height)
 	self.screenWidth = width;
@@ -81,6 +83,27 @@ function World:update(dt)
 				data.alive = false
 				love.audio.play(pick_random(sfx.explosion))
 			end
+			
+			if math.abs(data.wet) > cHumansJumpOutOfTheWindowThreshold and 
+				math.random() < cHumansJumpOutOfTheWindowProb 
+			then
+				local x, y = v:getPosition()
+				
+				local body = love.physics.newBody(self.world, x, y, "dynamic")
+				local data = {}
+				data.type = "human"
+				data.age = 0
+				body:setUserData(data)
+				local shape = love.physics.newCircleShape(4)
+				local fixture = love.physics.newFixture(body, shape)
+				local power = 5 + math.random() * 5
+				local angle = math.random() * math.pi * 2
+				body:applyLinearImpulse(
+					math.cos(angle) * power,
+					math.sin(angle) * power)
+					
+				body:applyTorque((0.5 - math.random() * 2) * 2 * math.pi)
+			end
 		end
 	end
 	
@@ -88,7 +111,7 @@ function World:update(dt)
 	if not self.gameOver and self.timelimit < 0 then
 		self.gameOver = true
 		self.blocksDestroyed = self.blockCount - self:countBlocks()
-		if self.blocksDestroyed > self.blockCount * cDestroyNecessaryFactor then
+		if self.blocksDestroyed >= self.blockCount * cDestroyNecessaryFactor then
 			self.winner = false
 			wins.fire = wins.fire + 1
 		else
@@ -119,6 +142,9 @@ function World:loadGfx()
 	self.partice12Quad = love.graphics.newQuad(0, 0, self.partice12Img:getWidth(), self.partice12Img:getHeight(), self.partice12Img:getWidth(), self.partice12Img:getHeight())
 	self.partice13Quad = love.graphics.newQuad(0, 0, self.partice13Img:getWidth(), self.partice13Img:getHeight(), self.partice13Img:getWidth(), self.partice13Img:getHeight())
 	self.partice14Quad = love.graphics.newQuad(0, 0, self.partice14Img:getWidth(), self.partice14Img:getHeight(), self.partice14Img:getWidth(), self.partice14Img:getHeight())	
+	
+	self.imgHuman = love.graphics.newImage("gfx/human.png")
+	self.quadHuman = love.graphics.newQuad(0, 0, self.imgHuman:getWidth(), self.imgHuman:getHeight(), self.imgHuman:getWidth(), self.imgHuman:getHeight())
 end
 
 
@@ -136,6 +162,21 @@ function World:draw()
 	local bodies = self.world:getBodyList()
 	for i,v in pairs(bodies) do
 		local data = v:getUserData()
+		
+		if data ~= nil and data.type == "human" then
+			local x, y = v:getPosition()
+			local angle = v:getAngle()
+			
+			love.graphics.setColor(255, 255, 255)
+			love.graphics.draw(self.imgHuman, self.quadHuman, 
+				x, 
+				y,
+				angle,
+				1,1,
+				self.imgHuman:getWidth()/2,
+				self.imgHuman:getHeight()/2)
+		end
+		
 		if data ~= nil and data.type == "shot" then
 			local quad = nil
 			local img = nil
