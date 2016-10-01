@@ -6,14 +6,20 @@ class "World" {
 function World:__init(width, height)
 	self.screenWidth = width;
 	self.screenHeight = height;
+	self.background = love.graphics.newImage("gfx/background.png")
+	self.blockWidth = 48;
+	self.blockHeight = 48;
+	self.blocksImg = love.graphics.newImage("gfx/blocks.png")
+	self.blocksQuad = love.graphics.newQuad(0, 0, self.blockWidth, self.blockHeight, self.blocksImg:getWidth(), self.blocksImg:getHeight())
+	
 	self.objects = {}
 
 	love.physics.setMeter(64)
 	self.world = love.physics.newWorld(0, 9.81 * 64, true)
 
 	self.ground = {}
-	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 16)
-	self.ground.shape = love.physics.newRectangleShape(self.screenWidth, 32)
+	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 24)
+	self.ground.shape = love.physics.newRectangleShape(self.screenWidth * 2, 32)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
@@ -33,9 +39,8 @@ function World:update(dt)
 end
 
 function World:draw()
-	love.graphics.setColor(0, 255, 0)
-	love.graphics.polygon("fill", self.ground.body:getWorldPoints(self.ground.shape:getPoints()))
-
+	love.graphics.draw(self.background)
+	
 	for i, v in pairs(self.objects) do
 		v:draw()
 	end
