@@ -4,17 +4,17 @@ class "World" {
 }
 
 function World:__init(width, height)
-	screenWidth = width;
-	screenHeight = height;
+	self.screenWidth = width;
+	self.screenHeight = height;
 	self.objects = {}
 
 	love.physics.setMeter(64)
 	self.world = love.physics.newWorld(0, 9.81 * 64, true)
 
 	self.ground = {}
-	self.ground.body = love.physics.newBody(self.world, screenWidth * 0.5, screenHeight - 16) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
-	self.ground.shape = love.physics.newRectangleShape(screenWidth, 32) --make a rectangle with a width of 650 and a height of 50
-	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape) --attach shape to body
+	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 16)
+	self.ground.shape = love.physics.newRectangleShape(self.screenWidth, 32)
+	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
 	table.insert(self.players, Player:new(false, 25, 525))
