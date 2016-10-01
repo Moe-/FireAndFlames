@@ -6,11 +6,13 @@ class "Player" {
 }
 
 cRotateSpeed = 0.45
+cCanonImpulse = 100
 
-function Player:__init(water, posx, posy)
+function Player:__init(water, posx, posy, world)
 	self.water = water
 	self.posx = posx
 	self.posy = posy
+	self.world = world
 	if self.water then
 		self.image = love.graphics.newImage("gfx/car-1.png")
 		self.gunImage = love.graphics.newImage("gfx/gun-1.png")
@@ -48,12 +50,26 @@ function Player:keyreleased(key)
 	end
 end
 
+function Player:shoot()
+	local body = love.physics.newBody(self.world, self.posx, self.posy, "dynamic")
+	local data = {}
+	data.type = "shot"
+	data.water = self.water
+	body:setUserData(data)
+	local shape = love.physics.newCircleShape(32)
+	local fixture = love.physics.newFixture(body, shape)
+	
+	body:applyLinearImpulse(math.cos(self.angle) * cCanonImpulse, math.sin(self.angle) * cCanonImpulse)
+end
+
 function Player:keypressed(key, scancode, isrepeat)
 	if self.water then
 		if key == "w" then
 			self.rotate = cRotateSpeed
 		elseif key == "s" then
 			self.rotate = -cRotateSpeed
+		elseif key == "e" then
+			self:shoot()
 		end
 	end
 	
@@ -62,6 +78,8 @@ function Player:keypressed(key, scancode, isrepeat)
 			self.rotate = cRotateSpeed
 		elseif key == "l" then
 			self.rotate = -cRotateSpeed
+		elseif key == "i" then
+			self:shoot()
 		end
 	end
 end

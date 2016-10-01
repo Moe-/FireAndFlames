@@ -24,8 +24,8 @@ function World:__init(width, height)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
-	table.insert(self.players, Player:new(false, 25, 525))
-	table.insert(self.players, Player:new(true, 675, 525))
+	table.insert(self.players, Player:new(false, 25, 525, self.world))
+	table.insert(self.players, Player:new(true, 675, 525, self.world))
 end
 
 function World:update(dt)
@@ -48,6 +48,20 @@ function World:draw()
 	end
 	for i, v in pairs(self.players) do
 		v:draw()
+	end
+	
+	local bodies = self.world:getBodyList()
+	for i,v in pairs(bodies) do
+		local data = v:getUserData()
+		if data ~= nil and data.type == "shot" then
+			if data.water then
+				love.graphics.setColor(0, 0, 255)
+			else
+				love.graphics.setColor(255, 0, 0)
+			end
+			local x, y = v:getPosition()
+			love.graphics.circle("fill", x, y, 8, 15)
+		end
 	end
 end
 
