@@ -52,11 +52,19 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.postshader.setBuffer("back")
+
 	gWorld:draw()
 	
 	for i = 1, 6 do
 		gBuilding[i]:draw()
 	end
+	
+	love.postshader.addEffect("scanlines")
+
+	love.postshader.setBuffer("render")
+
+	love.postshader.draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)

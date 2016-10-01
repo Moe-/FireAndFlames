@@ -41,6 +41,8 @@ function World:__init(width, height)
 	table.insert(self.players, Player:new(false,675, 455, self.world))
 	table.insert(self.players, Player:new(true, 25, 455, self.world))
 	gameInterface = GameInterface:new(self.players[2]:getPowerFunction(), self.players[1]:getPowerFunction())
+	
+	love.graphics.setDefaultFilter("nearest", "nearest")
 end
 
 function World:update(dt)
