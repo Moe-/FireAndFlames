@@ -37,7 +37,7 @@ function init()
 	math.randomseed(4)
 	
 	for i = 1, 6 do
-		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 80, math.random(4, 8))
+		gBuilding[i] = Building:new(gWorld, 350 + i * 50, 80, math.random(4, 8))
 	end
 	
 	gWorld:setBlockCount()
@@ -148,6 +148,7 @@ function beginContact(a, b, coll)
 				love.audio.play(pick_random(sfx.explosion))
 			end
 		end
+		if d1.type == "shot" and d2.type == "shot" then return end
 	end
 	
 	if d1 and d1.type == "shot" then

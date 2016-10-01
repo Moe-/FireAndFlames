@@ -6,6 +6,10 @@ class "World" {
 }
 
 cTimelimit = 60
+cFireSpread = -2
+cFireBurn = 0.2
+cFireSpreadBurnThreshold = -20
+cDestroyNecessaryFactor = 0.5
 
 function World:__init(width, height)
 	self.screenWidth = width;
@@ -38,7 +42,7 @@ function World:__init(width, height)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
-	table.insert(self.players, Player:new(false,675, 455, self.world))
+	table.insert(self.players, Player:new(false, 130, 455, self.world))
 	table.insert(self.players, Player:new(true, 25, 455, self.world))
 	
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -59,8 +63,22 @@ function World:update(dt)
 	local bodies = self.world:getBodyList()
 	for i,v in pairs(bodies) do
 		local data = v:getUserData()
+		
 		if data ~= nil and data.type == "shot" then
 			data.age = data.age + dt
+		end
+		
+		if data ~= nil and data.type == "block" then
+			if data.wet < cFireSpreadBurnThreshold then
+				data.wet = data.wet + cFireSpread * dt
+				data.health = data.health + cFireBurn * data.wet * dt
+			end
+			
+			if data.health < 0 then
+				v:destroy()
+				data.alive = false
+				love.audio.play(pick_random(sfx.explosion))
+			end
 		end
 	end
 	
@@ -68,7 +86,7 @@ function World:update(dt)
 	if not self.gameOver and self.timelimit < 0 then
 		self.gameOver = true
 		self.blocksDestroyed = self.blockCount - self:countBlocks()
-		if self.blocksDestroyed > self.blockCount/2 then
+		if self.blocksDestroyed > self.blockCount * cDestroyNecessaryFactor then
 			self.winner = false
 		else
 			self.winner = true
@@ -198,7 +216,7 @@ function World:getWinner()
 end
 
 function World:getDestroyedBlocks()
-  return self.blocksDestroyed
+  return self.blockCount - self:countBlocks()
 end
 
 function World:getGameStatusFunction()
