@@ -38,14 +38,16 @@ function Building:draw()
 		end
 	end
 	
+	local anim = math.floor(love.timer.getTime() / 0.1) % 2
+	
 	for i, v in pairs(self.blocks) do
 		if v.data.alive then
-			if v.data.wet > 25 or v.data.wet < -33 then
+			if v.data.wet > 25 or v.data.wet < -25 then
 				if v.data.wet > 0 then
-					self.world.effectQuad:setViewport(0 * self.world.effectWidth, (4 - math.ceil(v.data.wet / 33)) * self.world.effectHeight, self.world.effectWidth, self.world.effectHeight)
+					self.world.effectQuad:setViewport(anim * self.world.effectWidth, (4 - math.ceil(v.data.wet / 25)) * self.world.effectHeight, self.world.effectWidth, self.world.effectHeight)
 					love.graphics.draw(self.world.effectImg, self.world.effectQuad, v.body:getX(), v.body:getY() - 8, v.body:getAngle(), 1, 1, self.world.effectWidth * 0.5, self.world.effectHeight * 0.5)
 				else
-					self.world.effectQuad:setViewport(0 * self.world.effectWidth, (2 + math.floor(-v.data.wet / 25)) * self.world.effectHeight, self.world.effectWidth, self.world.effectHeight)
+					self.world.effectQuad:setViewport(anim * self.world.effectWidth, (2 + math.floor(-v.data.wet / 25)) * self.world.effectHeight, self.world.effectWidth, self.world.effectHeight)
 					love.graphics.draw(self.world.effectImg, self.world.effectQuad, v.body:getX(), v.body:getY() - 56, v.body:getAngle(), 1, 1, self.world.effectWidth * 0.5, self.world.effectHeight * 0.5)
 				end
 			end
