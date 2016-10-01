@@ -13,7 +13,7 @@ cFireBurn = 0.2
 cFireSpreadBurnThreshold = -20
 cDestroyNecessaryFactor = 0.5
 cHumansJumpOutOfTheWindowThreshold = 50
-cHumansJumpOutOfTheWindowProb = 0.05
+cHumansJumpOutOfTheWindowProb = 0.025
 
 function World:__init(width, height)
 	self.screenWidth = width;
@@ -76,6 +76,7 @@ function World:update(dt)
 			data.age = data.age + dt
 			if data.age > 3.0 then
 				v:destroy()
+				love.audio.play(sfx.pain)
 			end
 		end
 		

@@ -27,6 +27,9 @@ sfx.waterImpact = {
 sfx.fireLoop = love.audio.newSource("sfx/fire_loop.wav")
 sfx.waterLoop = love.audio.newSource("sfx/water_loop.wav")
 
+-- pain
+sfx.pain = love.audio.newSource("sfx/pain.mp3")
+sfx.pain:setVolume(0.5)
 gWorld = nil
 
 function init()
