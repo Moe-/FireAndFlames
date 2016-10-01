@@ -13,6 +13,7 @@ function World:__init(width, height)
 	self.blocksQuad = love.graphics.newQuad(0, 0, self.blockWidth, self.blockHeight, self.blocksImg:getWidth(), self.blocksImg:getHeight())
 	
 	self:loadGfx()
+	self:loadSfx()
 	
 	self.objects = {}
 
@@ -70,8 +71,30 @@ function World:loadGfx()
 	self.partice11Quad = love.graphics.newQuad(0, 0, self.partice11Img:getWidth(), self.partice11Img:getHeight(), self.partice11Img:getWidth(), self.partice11Img:getHeight())
 	self.partice12Quad = love.graphics.newQuad(0, 0, self.partice12Img:getWidth(), self.partice12Img:getHeight(), self.partice12Img:getWidth(), self.partice12Img:getHeight())
 	self.partice13Quad = love.graphics.newQuad(0, 0, self.partice13Img:getWidth(), self.partice13Img:getHeight(), self.partice13Img:getWidth(), self.partice13Img:getHeight())
-	self.partice14Quad = love.graphics.newQuad(0, 0, self.partice14Img:getWidth(), self.partice14Img:getHeight(), self.partice14Img:getWidth(), self.partice14Img:getHeight())
-		
+	self.partice14Quad = love.graphics.newQuad(0, 0, self.partice14Img:getWidth(), self.partice14Img:getHeight(), self.partice14Img:getWidth(), self.partice14Img:getHeight())	
+end
+
+function World:loadSfx()
+	-- one shots
+	self.sfxBlockFallImpack = {
+		love.audio.newSource("sfx/block_fall_impact.wav"), 
+	}
+	self.sfxExplosion = {
+		love.audio.newSource("sfx/explosion.wav"), 
+	}
+	self.sfxFireImpact = {
+		love.audio.newSource("sfx/fire_impact-001.wav"), 
+		love.audio.newSource("sfx/fire_impact-002.wav"), 
+		love.audio.newSource("sfx/fire_impact-003.wav"), 
+	}
+	self.sfxWaterImpact = {
+		love.audio.newSource("sfx/water_impact-001.wav"), 
+		love.audio.newSource("sfx/water_impact-002.wav"), 
+		love.audio.newSource("sfx/water_impact-003.wav"), 
+	}
+	-- loops
+	self.sfxFireLoop = love.audio.newSource("sfx/fire_loop.wav")
+	self.sfxWaterLoop = love.audio.newSource("sfx/water_loop.wav")
 end
 
 function World:draw()
