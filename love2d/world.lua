@@ -60,7 +60,7 @@ function World:draw()
 				love.graphics.setColor(255, 0, 0)
 			end
 			local x, y = v:getPosition()
-			love.graphics.circle("fill", x, y, 8, 15)
+			love.graphics.circle("fill", x, y, cShotRadius, 15)
 		end
 	end
 end
