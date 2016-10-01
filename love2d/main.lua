@@ -5,6 +5,28 @@ require("world")
 require("lib/building")
 require("game_interface")
 
+-- one shots
+sfx = {}
+sfx.blockFallImpack = {
+	love.audio.newSource("sfx/block_fall_impact.wav"), 
+}
+sfx.explosion = {
+	love.audio.newSource("sfx/explosion.wav"), 
+}
+sfx.fireImpact = {
+	love.audio.newSource("sfx/fire_impact-001.wav"), 
+	love.audio.newSource("sfx/fire_impact-002.wav"), 
+	love.audio.newSource("sfx/fire_impact-003.wav"), 
+}
+sfx.waterImpact = {
+	love.audio.newSource("sfx/water_impact-001.wav"), 
+	love.audio.newSource("sfx/water_impact-002.wav"), 
+	love.audio.newSource("sfx/water_impact-003.wav"), 
+}
+-- loops
+sfx.fireLoop = love.audio.newSource("sfx/fire_loop.wav")
+sfx.waterLoop = love.audio.newSource("sfx/water_loop.wav")
+
 gWorld = nil
 
 function init()

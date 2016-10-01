@@ -21,7 +21,6 @@ function World:__init(width, height)
 	self.winner = false
 	
 	self:loadGfx()
-	self:loadSfx()
 	
 	self.objects = {}
 
@@ -37,7 +36,7 @@ function World:__init(width, height)
 	self.players = {}
 	table.insert(self.players, Player:new(false,675, 455, self.world))
 	table.insert(self.players, Player:new(true, 25, 455, self.world))
-  gameInterface = GameInterface:new(self.players[2]:getPowerFunction(), self.players[1]:getPowerFunction())
+	gameInterface = GameInterface:new(self.players[2]:getPowerFunction(), self.players[1]:getPowerFunction())
 end
 
 function World:update(dt)
@@ -93,28 +92,6 @@ function World:loadGfx()
 	self.partice14Quad = love.graphics.newQuad(0, 0, self.partice14Img:getWidth(), self.partice14Img:getHeight(), self.partice14Img:getWidth(), self.partice14Img:getHeight())	
 end
 
-function World:loadSfx()
-	-- one shots
-	self.sfxBlockFallImpack = {
-		love.audio.newSource("sfx/block_fall_impact.wav"), 
-	}
-	self.sfxExplosion = {
-		love.audio.newSource("sfx/explosion.wav"), 
-	}
-	self.sfxFireImpact = {
-		love.audio.newSource("sfx/fire_impact-001.wav"), 
-		love.audio.newSource("sfx/fire_impact-002.wav"), 
-		love.audio.newSource("sfx/fire_impact-003.wav"), 
-	}
-	self.sfxWaterImpact = {
-		love.audio.newSource("sfx/water_impact-001.wav"), 
-		love.audio.newSource("sfx/water_impact-002.wav"), 
-		love.audio.newSource("sfx/water_impact-003.wav"), 
-	}
-	-- loops
-	self.sfxFireLoop = love.audio.newSource("sfx/fire_loop.wav")
-	self.sfxWaterLoop = love.audio.newSource("sfx/water_loop.wav")
-end
 
 function World:draw()
 	love.graphics.setColor(255, 255, 255)
