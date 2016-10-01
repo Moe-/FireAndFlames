@@ -69,12 +69,17 @@ function GameInterface:drawMiddleBar(gameStatus)
 		end
     love.graphics.draw(self.guiText, love.graphics.getWidth()/2, 50, 0, 1.5, 1.5, self.guiText:getWidth()/2, 0)
   else
+    -- show remaining time
     love.graphics.setColor(255, 255 * gameStatus.remainingTime / cTimelimit, 255 * gameStatus.remainingTime / cTimelimit, 255)
-    
+    self.guiText:set(string.format(gameStatus.remainingTime > 10 and "%.0fs" or "%.2fs", gameStatus.remainingTime))
+    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset, 0, 2, 2, self.guiText:getWidth()/2, 0)
+    -- show blocks that have to be destroyed
     local blocksToDestroyLeft = round(gameStatus.blockCount * cDestroyNecessaryFactor) - gameStatus.blocksDestroyed
-    self.guiText:set(string.format(gameStatus.remainingTime > 10 and "%.0fs / %s" or "%.2fs / %s", gameStatus.remainingTime, blocksToDestroyLeft))
-
-  love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset, 0, 2, 2, self.guiText:getWidth()/2, 0)
+    local blockDestroyColor = blocksToDestroyLeft/ (gameStatus.blockCount*cDestroyNecessaryFactor)
+    print(blockDestroyColor)
+    love.graphics.setColor(255, 255 * blockDestroyColor, 255 *blockDestroyColor, 255)
+    self.guiText:set(string.format("Blocks to destroy: %s", blocksToDestroyLeft))
+    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset*2+10, 0, 2, 2, self.guiText:getWidth()/2, 0)
   end
   love.graphics.setColor(oldR, oldG, oldB)
 end
