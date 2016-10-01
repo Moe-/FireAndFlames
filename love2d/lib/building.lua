@@ -45,10 +45,10 @@ function Building:draw()
 			if v.data.wet > 25 or v.data.wet < -25 then
 				if v.data.wet > 0 then
 					self.world.effectQuad:setViewport(anim * self.world.effectWidth, (4 - math.ceil(v.data.wet / 25)) * self.world.effectHeight, self.world.effectWidth, self.world.effectHeight)
-					love.graphics.draw(self.world.effectImg, self.world.effectQuad, v.body:getX(), v.body:getY() - 8, v.body:getAngle(), 1, 1, self.world.effectWidth * 0.5, self.world.effectHeight * 0.5)
+					love.graphics.draw(self.world.effectImg, self.world.effectQuad, v.body:getX(), v.body:getY(), v.body:getAngle(), 1, 1, self.world.effectWidth * 0.5, self.world.effectHeight * 0.5 + 8)
 				else
 					self.world.effectQuad:setViewport(anim * self.world.effectWidth, (2 + math.floor(-v.data.wet / 25)) * self.world.effectHeight, self.world.effectWidth, self.world.effectHeight)
-					love.graphics.draw(self.world.effectImg, self.world.effectQuad, v.body:getX(), v.body:getY() - 8, v.body:getAngle(), 1, 1, self.world.effectWidth * 0.5, self.world.effectHeight * 0.5)
+					love.graphics.draw(self.world.effectImg, self.world.effectQuad, v.body:getX(), v.body:getY(), v.body:getAngle(), 1, 1, self.world.effectWidth * 0.5, self.world.effectHeight * 0.5 + 8)
 				end
 			end
 		end
