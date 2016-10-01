@@ -3,11 +3,13 @@ class "Player" {
 	posy = 0;
 	angle = 0;
 	rotate = 0;
+	power = 100;
 }
 
 cRotateSpeed = 0.85
 cCanonImpulse = 40
 cShotRadius = 8
+cShotTick = 0.10
 cShootTimeout = 0.1
 
 function Player:__init(water, posx, posy, world)
