@@ -14,7 +14,7 @@ function love.load()
 end
 
 function love.update(dt)
-	gWorld:update()
+	gWorld:update(dt)
 end
 
 function love.draw()
