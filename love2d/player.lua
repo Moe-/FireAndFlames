@@ -116,6 +116,6 @@ function Player:keypressed(key, scancode, isrepeat)
 	end
 end
 
-function Player:getPower()
-  return self.power
+function Player:getPowerFunction()
+  return function () return self.power end
 end
