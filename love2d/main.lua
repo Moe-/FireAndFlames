@@ -40,7 +40,10 @@ end
 function love.keypressed(key, scancode, isrepeat)
     if key == "escape" then
         love.event.quit()
-    end
+    elseif key == "t" then
+			init()
+		end
+		
 		gWorld:keypressed(key, scancode, isrepeat)
 end
 

@@ -3,6 +3,8 @@ class "World" {
 	screenHeight = 0;
 }
 
+cTimelimit = 30
+
 function World:__init(width, height)
 	self.screenWidth = width;
 	self.screenHeight = height;
@@ -11,6 +13,10 @@ function World:__init(width, height)
 	self.blockHeight = 48;
 	self.blocksImg = love.graphics.newImage("gfx/blocks.png")
 	self.blocksQuad = love.graphics.newQuad(0, 0, self.blockWidth, self.blockHeight, self.blocksImg:getWidth(), self.blocksImg:getHeight())
+	
+	self.timelimit = cTimelimit
+	self.gameOver = false
+	self.winner = false
 	
 	self:loadGfx()
 	
@@ -46,6 +52,12 @@ function World:update(dt)
 		if data ~= nil and data.type == "shot" then
 			data.age = data.age + dt
 		end
+	end
+	
+	self.timelimit = self.timelimit - dt	
+	if not self.gameOver and self.timelimit < 0 then
+		self.gameOver = true
+		-- todo: detect winner
 	end
 end
 
@@ -131,6 +143,19 @@ function World:draw()
 			love.graphics.draw(img, quad, x - img:getWidth()/2, y - img:getHeight()/2)
 		end
 	end
+	
+	if self.gameOver then
+		-- todo: print winner
+		love.graphics.setColor(255, 0, 0, 255)
+    love.graphics.print("Game Over.", self.screenWidth/2 - 50, 50, 0, 2, 2)
+		love.graphics.setColor(255, 255, 255, 255)
+	else
+		love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.print(round(self.timelimit, 2), self.screenWidth/2 - 52, 52, 0, 2, 2)
+		love.graphics.setColor(255, 255 * self.timelimit / cTimelimit, 255 * self.timelimit / cTimelimit, 255)
+    love.graphics.print(round(self.timelimit, 2), self.screenWidth/2 - 50, 50, 0, 2, 2)
+		love.graphics.setColor(255, 255, 255, 255)
+	end
 end
 
 function World:keyreleased(key)
@@ -143,4 +168,8 @@ function World:keypressed(key, scancode, isrepeat)
 	for i, v in pairs(self.players) do
 		v:keypressed(key, scancode, isrepeat)
 	end
+end
+
+function World:getTimeLeft()
+	return round(self.timelimit, 2)
 end
