@@ -6,6 +6,11 @@ class "World" {
 function World:__init(width, height)
 	self.screenWidth = width;
 	self.screenHeight = height;
+	self.blockWidth = 48;
+	self.blockHeight = 48;
+	self.blocksImg = love.graphics.newImage("gfx/blocks.png")
+	self.blocksQuad = love.graphics.newQuad(0, 0, self.blockWidth, self.blockHeight, self.blocksImg:getWidth(), self.blocksImg:getHeight())
+	
 	self.objects = {}
 
 	love.physics.setMeter(64)

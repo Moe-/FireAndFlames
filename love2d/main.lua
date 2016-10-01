@@ -25,6 +25,8 @@ end
 function love.draw()
 	gWorld:draw()
 	gBuilding1:draw()
+	gBuilding2:draw()
+	gBuilding3:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
