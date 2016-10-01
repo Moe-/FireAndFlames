@@ -2,11 +2,16 @@ require("lib/postshader")
 require("utils")
 require("player")
 require("world")
+require("lib/building")
 
 gWorld = nil
 
 function init()
 	gWorld = World:new(800,600)
+	
+	gBuilding1 = Building:new(gWorld, 200, 64, 3)
+	gBuilding2 = Building:new(gWorld, 250, 64, 5)
+	gBuilding3 = Building:new(gWorld, 300, 64, 4)
 end
 
 function love.load()
@@ -19,6 +24,7 @@ end
 
 function love.draw()
 	gWorld:draw()
+	gBuilding1:draw()
 end
 
 function love.keypressed(key, scancode, isrepeat)
