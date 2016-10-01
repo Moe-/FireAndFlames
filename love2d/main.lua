@@ -89,11 +89,16 @@ function beginContact(a, b, coll)
 		
 		if d1.type == "block" and d2.type == "shot" then
 			if d2.water then
-				d1.wet = d1.wet + 10
+				if d1.wet < 100 then
+					d1.wet = d1.wet + 10
+				end
 			else
 				if d1.wet > 0 then
 					d1.wet = d1.wet - 10
 				else
+					if d1.wet > -100 then
+						d1.wet = d1.wet - 10
+					end
 					d1.health = d1.health - 10
 				end
 			end
