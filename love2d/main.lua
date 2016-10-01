@@ -76,18 +76,34 @@ function beginContact(a, b, coll)
 	local d2 = b2:getUserData()
 	
 	if d1 and d2 then
+		if d1.type == "shot" and d2.type == "block" then
+			local b1_dummy = b1
+			local d1_dummy = d1
+			
+			b1 = b2
+			d1 = d2
+			
+			b2 = b1_dummy
+			d2 = d1_dummy
+		end
+		
 		if d1.type == "block" and d2.type == "shot" then
-			d1.health = d1.health - 10
+			if d2.water then
+				d1.wet = d1.wet + 10
+			else
+				if d1.wet > 0 then
+					d1.wet = d1.wet - 10
+				else
+					d1.health = d1.health - 10
+				end
+			end
+
 			b1:setUserData(d1)
 			
 			if d1.health <= 0 then
 				b1:destroy()
 				d1.data.alive = false
 			end
-		end
-
-		if d2.type == "block" and d1.type == "shot" then
-			print("lol")
 		end
 	end
 	
