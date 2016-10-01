@@ -1,9 +1,11 @@
 class "World" {
 	screenWidth = 0;
 	screenHeight = 0;
+	blockCount = 0;
+	blocksDestroyed = 0;
 }
 
-cTimelimit = 30
+cTimelimit = 60
 
 function World:__init(width, height)
 	self.screenWidth = width;
@@ -59,7 +61,12 @@ function World:update(dt)
 	self.timelimit = self.timelimit - dt	
 	if not self.gameOver and self.timelimit < 0 then
 		self.gameOver = true
-		-- todo: detect winner
+		self.blocksDestroyed = self.blockCount - self:countBlocks()
+		if self.blocksDestroyed > self.blockCount/2 then
+			self.winner = false
+		else
+			self.winner = true
+		end
 	end
 end
 
@@ -170,8 +177,13 @@ function World:draw()
 	
 	if self.gameOver then
 		-- todo: print winner
-		love.graphics.setColor(255, 0, 0, 255)
-    love.graphics.print("Game Over.", self.screenWidth/2 - 50, 50, 0, 2, 2)
+		if self.winner then -- fire fighter wins
+			love.graphics.setColor(0, 0, 255, 255)
+			love.graphics.print("Fire fighter wins: " .. self.blocksDestroyed .. " of " .. self.blockCount .. " blocks destroyed", self.screenWidth/4 - 50, 50, 0, 2, 2)
+		else
+			love.graphics.setColor(255, 0, 0, 255)
+			love.graphics.print("Fire snake wins: " .. self.blocksDestroyed .. " of " .. self.blockCount .. " blocks destroyed", self.screenWidth/4 - 50, 50, 0, 2, 2)
+		end
 		love.graphics.setColor(255, 255, 255, 255)
 	else
 		love.graphics.setColor(0, 0, 0, 255)
@@ -197,4 +209,20 @@ end
 
 function World:getTimeLeft()
 	return round(self.timelimit, 2)
+end
+
+function World:setBlockCount()
+	self.blockCount = self:countBlocks()
+end
+
+function World:countBlocks()
+	local count = 0
+	local bodies = self.world:getBodyList()
+	for i,v in pairs(bodies) do
+		local data = v:getUserData()
+		if data ~= nil and data.type == "block" then
+			count = count + 1
+		end
+	end
+	return count
 end

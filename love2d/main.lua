@@ -17,6 +17,8 @@ function init()
 	for i = 1, 6 do
 		gBuilding[i] = Building:new(gWorld, 200 + i * 50, 80, math.random(4, 8))
 	end
+	
+	gWorld:setBlockCount()
 end
 
 function love.load()
