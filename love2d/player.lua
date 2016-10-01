@@ -71,9 +71,9 @@ end
 
 function Player:keypressed(key, scancode, isrepeat)
 	if self.water then
-		if key == "w" or key == "a" then
+		if key == "w" or key == "d" then
 			self.rotate = cRotateSpeed
-		elseif key == "s" or key == "d"  then
+		elseif key == "s" or key == "a"  then
 			self.rotate = -cRotateSpeed
 		elseif key == "e" or key == "space" then
 			self:shoot()
@@ -81,9 +81,9 @@ function Player:keypressed(key, scancode, isrepeat)
 	end
 	
 	if not self.water then
-		if key == "o" or key == "left" then
+		if key == "o" or key == "right" then
 			self.rotate = cRotateSpeed
-		elseif key == "l" or key == "right" then
+		elseif key == "l" or key == "left" then
 			self.rotate = -cRotateSpeed
 		elseif key == "i" or key == "return" then
 			self:shoot()
