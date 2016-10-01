@@ -9,9 +9,9 @@ gWorld = nil
 function init()
 	gWorld = World:new(800,600)
 	
-	gBuilding1 = Building:new(gWorld, 200, 64, 3)
-	gBuilding2 = Building:new(gWorld, 250, 64, 5)
-	gBuilding3 = Building:new(gWorld, 300, 64, 4)
+	gBuilding1 = Building:new(gWorld, 200, 32, 3)
+	gBuilding2 = Building:new(gWorld, 250, 32, 5)
+	gBuilding3 = Building:new(gWorld, 300, 32, 4)
 end
 
 function love.load()
