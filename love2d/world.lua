@@ -1,8 +1,6 @@
 class "World" {
 	screenWidth = 0;
 	screenHeight = 0;
-	offsetx = 0;
-	offsety = 0;
 }
 
 function World:__init(width, height)
@@ -29,6 +27,9 @@ function World:update(dt)
 	for i, v in pairs(self.objects) do
 		v:update(dt)
 	end
+	for i, v in pairs(self.players) do
+		v:update(dt)
+	end
 end
 
 function World:draw()
@@ -36,6 +37,21 @@ function World:draw()
 	love.graphics.polygon("fill", self.ground.body:getWorldPoints(self.ground.shape:getPoints()))
 
 	for i, v in pairs(self.objects) do
-		v:draw(self.offsetx, self.offsety)
+		v:draw()
+	end
+	for i, v in pairs(self.players) do
+		v:draw()
+	end
+end
+
+function World:keyreleased(key)
+	for i, v in pairs(self.players) do
+		v:keyreleased(key)
+	end
+end
+
+function World:keypressed(key, scancode, isrepeat)
+	for i, v in pairs(self.players) do
+		v:keypressed(key, scancode, isrepeat)
 	end
 end

@@ -31,10 +31,11 @@ function love.keypressed(key, scancode, isrepeat)
     if key == "escape" then
         love.event.quit()
     end
+		gWorld:keypressed(key, scancode, isrepeat)
 end
 
 function love.keyreleased(key)
-
+	gWorld:keyreleased(key)
 end
 
 function love.textinput(text)
