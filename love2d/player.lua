@@ -33,8 +33,13 @@ end
 function Player:draw()
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.draw(self.image, self.quad, self.posx, self.posy)
-		love.graphics.draw(self.gunImage, self.gunQuad, self.posx + self.image:getWidth()/2 - self.gunImage:getWidth()/2 + 10, self.posy + 10, 
+		if water then
+			love.graphics.draw(self.gunImage, self.gunQuad, self.posx + self.image:getWidth()/2 - self.gunImage:getWidth()/2 + 10, self.posy + 10, 
 											self.angle, 1, 1, self.gunImage:getWidth()/2, self.gunImage:getHeight() - 5)
+		else
+			love.graphics.draw(self.gunImage, self.gunQuad, self.posx + self.image:getWidth()/2 - self.gunImage:getWidth()/2 + 10, self.posy + 10, 
+											self.angle, 1, 1, self.gunImage:getWidth()/2, self.gunImage:getHeight() - 5)
+		end
 end
 
 function Player:keyreleased(key)

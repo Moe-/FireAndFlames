@@ -24,8 +24,8 @@ function World:__init(width, height)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 
 	self.players = {}
-	table.insert(self.players, Player:new(false, 25, 525, self.world))
-	table.insert(self.players, Player:new(true, 675, 525, self.world))
+	table.insert(self.players, Player:new(false,675, 525, self.world))
+	table.insert(self.players, Player:new(true, 25, 525, self.world))
 end
 
 function World:update(dt)
