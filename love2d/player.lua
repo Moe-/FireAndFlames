@@ -5,7 +5,7 @@ class "Player" {
 	rotate = 0;
 }
 
-cRotateSpeed = 0.45
+cRotateSpeed = 0.85
 cCanonImpulse = 100
 cShotRadius = 8
 
