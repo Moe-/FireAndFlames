@@ -72,6 +72,13 @@ function World:update(dt)
 			data.age = data.age + dt
 		end
 		
+		if data ~= nil and data.type == "human" then
+			data.age = data.age + dt
+			if data.age > 3.0 then
+				v:destroy()
+			end
+		end
+		
 		if data ~= nil and data.type == "block" then
 			if data.wet < cFireSpreadBurnThreshold then
 				data.wet = data.wet + cFireSpread * dt
@@ -85,7 +92,8 @@ function World:update(dt)
 			end
 			
 			if math.abs(data.wet) > cHumansJumpOutOfTheWindowThreshold and 
-				math.random() < cHumansJumpOutOfTheWindowProb 
+				math.random() < cHumansJumpOutOfTheWindowProb and
+				not v:isDestroyed()
 			then
 				local x, y = v:getPosition()
 				
