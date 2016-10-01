@@ -34,7 +34,7 @@ function GameInterface:draw()
 end
 
 function GameInterface:drawPlayerBars()
-  oldR, oldG, oldB = love.graphics.getColor()
+  oldR, oldG, oldB, oldA = love.graphics.getColor()
   love.graphics.setColor(255,255,255)
   --water
   love.graphics.draw(self.waterImage, self.barHorizontalScreenOffset-34, self.barVerticalScreenOffset-2)
@@ -45,7 +45,7 @@ function GameInterface:drawPlayerBars()
   love.graphics.draw(self.fireImage, love.graphics.getWidth()-self.barHorizontalScreenOffset+2, self.barVerticalScreenOffset-2)
   love.graphics.draw(self.fireBGImage, love.graphics.getWidth()-self.barHorizontalScreenOffset, self.barVerticalScreenOffset, 0, -1.0, 1)
   love.graphics.draw(self.fireFGImage, love.graphics.getWidth()-self.barHorizontalScreenOffset-self.fgBorderXOffset, self.barVerticalScreenOffset+self.fgBorderYOffset, 0, -1.0*10*self.fireFillStatusFunction(), 1)
-  love.graphics.setColor(oldR, oldG, oldB)
+  love.graphics.setColor(oldR, oldG, oldB, oldA)
 end
 
 --[[example: gameStatus = {
@@ -55,7 +55,7 @@ end
       }
 --]]
 function GameInterface:drawMiddleBar(gameStatus)
-  oldR, oldG, oldB = love.graphics.getColor()
+  oldR, oldG, oldB, oldA = love.graphics.getColor()
   if gameStatus.gameOver then
     love.graphics.setColor(255,0,0)
     self.guiText:set("Game Over")
@@ -76,10 +76,18 @@ function GameInterface:drawMiddleBar(gameStatus)
     -- show blocks that have to be destroyed
     local blocksToDestroyLeft = round(gameStatus.blockCount * cDestroyNecessaryFactor) - gameStatus.blocksDestroyed
     local blockDestroyColor = blocksToDestroyLeft/ (gameStatus.blockCount*cDestroyNecessaryFactor)
-    --~ print(blockDestroyColor)
     love.graphics.setColor(255, 255 * blockDestroyColor, 255 *blockDestroyColor, 255)
-    self.guiText:set(string.format("Blocks to destroy: %s\n%s:%s", blocksToDestroyLeft, gameStatus.winsWater, gameStatus.winsFire))
+    self.guiText:set(string.format("Blocks to destroy: %s", blocksToDestroyLeft))
     love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset*2+10, 0, 2, 2, self.guiText:getWidth()/2, 0)
+    -- versusColor < 0 => red, versusColor > 0 => blue, versusColor = 0 => draw
+    local versusColor = (gameStatus.winsWater - gameStatus.winsFire)/(gameStatus.winsWater + gameStatus.winsFire+1)
+    --if blue is in the lead, set red part to 255, if red is in the lead, set blue part to 255
+    love.graphics.setColor(
+      versusColor<=0 and 255 or 255-255*math.abs(versusColor),
+      255-255*math.abs(versusColor),
+      versusColor>=0 and 255 or 255-255*math.abs(versusColor),255)
+    self.guiText:set(string.format("%s:%s", gameStatus.winsWater, gameStatus.winsFire))
+    love.graphics.draw(self.guiText, love.graphics.getWidth()/2, self.barVerticalScreenOffset*3+20, 0, 2, 2, self.guiText:getWidth()/2, 0)
   end
-  love.graphics.setColor(oldR, oldG, oldB)
+  love.graphics.setColor(oldR, oldG, oldB, oldA)
 end
