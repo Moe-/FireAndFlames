@@ -19,7 +19,7 @@ function World:__init(width, height)
 	self.world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
 	self.ground = {}
-	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 24)
+	self.ground.body = love.physics.newBody(self.world, self.screenWidth * 0.5, self.screenHeight - 104)
 	self.ground.shape = love.physics.newRectangleShape(self.screenWidth * 2, 32)
 	self.ground.fixture = love.physics.newFixture(self.ground.body, self.ground.shape)
 

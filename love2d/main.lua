@@ -14,7 +14,7 @@ function init()
 	math.randomseed(1)
 	
 	for i = 1, 10 do
-		gBuilding[i] = Building:new(gWorld, 100 + i * 50, 32, math.random(2, 7))
+		gBuilding[i] = Building:new(gWorld, 100 + i * 50, 100, math.random(2, 7))
 	end
 end
 
@@ -66,7 +66,7 @@ function love.wheelmoved(x, y)
 end
 
 function beginContact(a, b, coll)
- 
+
 end
  
 function endContact(a, b, coll)
