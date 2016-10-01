@@ -16,6 +16,8 @@ function Player:__init(water, posx, posy, world)
 	self.water = water
 	self.posx = posx
 	self.posy = posy
+	self.gunOffX = 25
+	self.gunOffY = 25
 	self.world = world
 	self.inputRotateLeft = false
 	self.inputRotateRight = false
@@ -62,15 +64,15 @@ end
 
 function Player:draw()
 	love.graphics.setColor(255, 255, 255)
-	if self.water then
-		love.graphics.draw(self.image, self.quad, self.posx, self.posy)
-		love.graphics.draw(self.gunImage, self.gunQuad, self.posx - self.gunImage:getWidth()/2 + 20, self.posy + 30, 
-										self.angle, 1, 1, self.gunImage:getWidth()/2, self.gunImage:getHeight())
-	else
-		love.graphics.draw(self.image, self.quad, self.posx, self.posy)
-		love.graphics.draw(self.gunImage, self.gunQuad, self.posx + 20, self.posy + 25, 
-										self.angle, 1, 1, 3, self.gunImage:getHeight())
-	end
+
+	love.graphics.draw(self.image, self.quad, self.posx, self.posy)
+	
+	love.graphics.draw(self.gunImage, self.gunQuad, 
+		self.posx + self.gunOffX,
+		self.posy + self.gunOffY,
+		self.angle, 1, 1, 
+		self.gunImage:getWidth()/2, 
+		self.gunImage:getHeight())
 end
 
 function Player:keyreleased(key)
@@ -88,7 +90,7 @@ end
 function Player:shoot()
 	if self.power <= 0 then return end
 	
-	local body = love.physics.newBody(self.world, self.posx, self.posy, "dynamic")
+	local body = love.physics.newBody(self.world, self.posx + self.gunOffX, self.posy + self.gunOffY, "dynamic")
 	local data = {}
 	data.type = "shot"
 	data.water = self.water
@@ -112,4 +114,8 @@ function Player:keypressed(key, scancode, isrepeat)
 	if key == self.keyShoot then
 		self.inputShoot = true
 	end
+end
+
+function Player:getPower()
+  return self.power
 end

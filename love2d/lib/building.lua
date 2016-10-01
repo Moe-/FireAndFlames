@@ -12,6 +12,7 @@ function Building:__init(world, x, y, height)
 
 		block.type = "block"
 		block.health = 100
+		block.wet = 0
 		block.alive = true
 		block.variant = math.random(0, 2)
 		block.body = love.physics.newBody(self.world.world, x, self.world.screenHeight - i * self.world.blockHeight - y, "dynamic")
@@ -30,11 +31,10 @@ function Building:update(dt)
 end
 
 function Building:draw()
-	love.graphics.setColor(255, 255, 255)
-
 	for i, v in pairs(self.blocks) do
 		if v.data.alive then
-			self.world.blocksQuad:setViewport(v.variant * self.world.blockWidth, 0, self.world.blockWidth, self.world.blockHeight)
+			love.graphics.setColor(255 - v.data.wet, 255 - v.data.wet, 255)
+			self.world.blocksQuad:setViewport(v.variant * self.world.blockWidth, (4 - math.ceil(v.data.health / 25)) * self.world.blockHeight, self.world.blockWidth, self.world.blockHeight)
 			love.graphics.draw(self.world.blocksImg, self.world.blocksQuad, v.body:getX(), v.body:getY(), v.body:getAngle(), 1, 1, self.world.blockWidth * 0.5, self.world.blockHeight * 0.5)
 		end
 	end
