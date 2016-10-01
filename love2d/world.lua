@@ -11,6 +11,10 @@ function World:__init(width, height)
 	self.blockHeight = 48;
 	self.blocksImg = love.graphics.newImage("gfx/blocks.png")
 	self.blocksQuad = love.graphics.newQuad(0, 0, self.blockWidth, self.blockHeight, self.blocksImg:getWidth(), self.blocksImg:getHeight())
+	self.effectWidth = 48;
+	self.effectHeight = 64;
+	self.effectImg = love.graphics.newImage("gfx/blocks-overlay.png")
+	self.effectQuad = love.graphics.newQuad(0, 0, self.effectWidth, self.effectHeight, self.effectImg:getWidth(), self.effectImg:getHeight())
 	
 	self:loadGfx()
 	
