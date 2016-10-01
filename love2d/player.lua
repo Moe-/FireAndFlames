@@ -3,7 +3,7 @@ class "Player" {
 	posy = 0;
 	angle = 0;
 	rotate = 0;
-	power = 100;
+	power = 1;
 }
 
 cRotateSpeed = 0.85
@@ -55,6 +55,9 @@ function Player:update(dt)
 		self.shootIdleTime = 0
 		self:shoot()
 	end
+	
+	self.power = self.power + 0.375 * dt
+	if self.power > 1 then self.power = 1 end
 end
 
 function Player:draw()
@@ -83,6 +86,8 @@ function Player:keyreleased(key)
 end
 
 function Player:shoot()
+	if self.power <= 0 then return end
+	
 	local body = love.physics.newBody(self.world, self.posx, self.posy, "dynamic")
 	local data = {}
 	data.type = "shot"
@@ -92,7 +97,9 @@ function Player:shoot()
 	local shape = love.physics.newCircleShape(cShotRadius)
 	local fixture = love.physics.newFixture(body, shape)
 	
-	body:applyLinearImpulse(math.cos(self.angle - math.pi/2) * cCanonImpulse, math.sin(self.angle - math.pi/2) * cCanonImpulse)
+	body:applyLinearImpulse(math.cos(self.angle - math.pi/2) * cCanonImpulse * self.power, math.sin(self.angle - math.pi/2) * cCanonImpulse * self.power)
+	
+	self.power = self.power - 0.05
 end
 
 function Player:keypressed(key, scancode, isrepeat)	
